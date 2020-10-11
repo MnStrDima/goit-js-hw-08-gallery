@@ -92,19 +92,19 @@ function onClickImageSlider(e) {
   const lastChild = galleryItems.length - 1;
 
   if (e.code === 'ArrowRight') {
-    const nextIndex = parsedIndex === lastChild ? firstChild : parsedIndex + 1;
-    const { original, description } = galleryItems[nextIndex];
-    lightboxImageRef.src = original;
-    lightboxImageRef.alt = description;
-    lightboxImageRef.dataset.index = nextIndex;
+    const newIndex = parsedIndex === lastChild ? firstChild : parsedIndex + 1;
+    setNewAttributes(newIndex);
   }
 
   if (e.code === 'ArrowLeft') {
-    const prevIndex = parsedIndex === firstChild ? lastChild : parsedIndex - 1;
-    const { original, description } = galleryItems[prevIndex];
-
-    lightboxImageRef.src = original;
-    lightboxImageRef.alt = description;
-    lightboxImageRef.dataset.index = prevIndex;
+    const newIndex = parsedIndex === firstChild ? lastChild : parsedIndex - 1;
+    setNewAttributes(newIndex);
   }
+}
+
+function setNewAttributes(newIndex) {
+  const { original, description } = galleryItems[newIndex];
+  lightboxImageRef.src = original;
+  lightboxImageRef.alt = description;
+  lightboxImageRef.dataset.index = newIndex;
 }

@@ -40,7 +40,6 @@ function onGalleryItemClick(e) {
   if (e.target.tagName !== 'IMG') {
     return;
   }
-  console.log(e.target);
   onOpenModal(e);
 }
 
@@ -84,35 +83,28 @@ function onEscCloseModal(e) {
   }
 }
 
-function onClickImageSlider(e, index) {
+function onClickImageSlider(e) {
+  const {
+    dataset: { index },
+  } = lightboxImageRef;
+  const parsedIndex = parseInt(index);
+  const firstChild = 0;
+  const lastChild = galleryItems.length - 1;
+
   if (e.code === 'ArrowRight') {
-    console.log(
-      e.target.parentNode.nextElementSibling.childNodes[1].childNodes[1],
-    );
-    setNextImageAttribute(e);
-  } else if (e.code === 'ArrowLeft') {
-    console.log(
-      e.target.parentNode.previousElementSibling.childNodes[1].childNodes[1],
-    );
-    setPreviousImageAttribute(e);
+    const nextIndex = parsedIndex === lastChild ? firstChild : parsedIndex + 1;
+    const { original, description } = galleryItems[nextIndex];
+    lightboxImageRef.src = original;
+    lightboxImageRef.alt = description;
+    lightboxImageRef.dataset.index = nextIndex;
+  }
+
+  if (e.code === 'ArrowLeft') {
+    const prevIndex = parsedIndex === firstChild ? lastChild : parsedIndex - 1;
+    const { original, description } = galleryItems[prevIndex];
+
+    lightboxImageRef.src = original;
+    lightboxImageRef.alt = description;
+    lightboxImageRef.dataset.index = prevIndex;
   }
 }
-
-// function setNextImageAttribute(e) {
-//   lightboxImageRef.src =
-//     e.target.parentNode.nextElementSibling.childNodes[1].childNodes[1].dataset.source;
-//   lightboxImageRef.alt =
-//     e.target.parentNode.nextElementSibling.childNodes[1].childNodes[1].alt;
-// }
-
-// function setPreviousImageAttribute(e) {
-//   lightboxImageRef.src =
-//     e.target.parentNode.previousElementSibling.childNodes[1].childNodes[1].dataset.source;
-//   lightboxImageRef.alt =
-//     e.target.parentNode.previousElementSibling.childNodes[1].childNodes[1].alt;
-// }
-
-// [...galleryListRef.children].forEach((child, index) => {
-//   console.log(child.querySelector('.gallery__image'), index);
-//   lightboxImageRef.src.indexOf(child.querySelector('.gallery__image').src);
-// });
